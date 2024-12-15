@@ -31,24 +31,30 @@ export default function Register() {
                         <div className="form-group mb-2">
                             <label className="form-label" htmlFor="first_name">First Name</label>
                             <input type="text" name="first_name" value={data.first_name} onChange={(e) => handleOnchange(e)} className="form-control" />
+                            {errors.first_name && <span className="text-danger">{errors.first_name}</span>}
                         </div>
                         <div className="form-group mb-2">
                             <label className="form-label" htmlFor="last_name">Last Name</label>
                             <input type="text" name="last_name" value={data.last_name} onChange={(e) => handleOnchange(e)} className="form-control" />
+                            {errors.last_name && <span className="text-danger">{errors.last_name}</span>}
                         </div>
                         <div className="form-group mb-2">
                             <label className="form-label" htmlFor="email">Email</label>
                             <input type="text" name="email" value={data.email} onChange={(e) => handleOnchange(e)} className="form-control" />
+                            {errors.email && <span className="text-danger">{errors.email}</span>}
                         </div> <div className="form-group mb-2">
                             <label className="form-label" htmlFor="address">Address</label>
                             <input type="text" name="address" value={data.address} onChange={(e) => handleOnchange(e)} className="form-control" />
+                            {errors.address && <span className="text-danger">{errors.address}</span>}
                         </div><div className="form-group mb-2">
                             <label className="form-label" htmlFor="address">Phone</label>
                             <input type="number" name="phone" value={data.phone} onChange={(e) => handleOnchange(e)} className="form-control" />
+                            {errors.phone && <span className="text-danger">{errors.phone}</span>}
                         </div>
                         <div className="form-group mb-2">
                             <label className="form-label" htmlFor="Job Title">Job Title</label>
                             <input type="text" name="job_title" value={data.job_title} onChange={(e) => handleOnchange(e)} className="form-control" />
+                            {errors.job_title && <span className="text-danger">{errors.job_title}</span>}
                         </div>
                         <div className="form-footer d-grid gap-2">
                             <button disabled={processing} className="btn btn-primary">Create Account</button>
