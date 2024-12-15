@@ -32,13 +32,13 @@ class RegisterController extends Controller
         $generateRandomPassword = Str::random(8);
         try {
             $user = User::create([
-                'name' => ucfirst($request->first_name) . ' ' . ucfirst($request->last_name),
-                'first_name' => ucfirst($request->first_name),
-                'last_name' => ucfirst($request->last_name),
-                'email' => $request->email,
-                'phone' => $request->phone,
-                'address' => ucfirst($request->address),
-                'job_title' => ucfirst($request->job_title),
+                'name' => ucfirst(trim($request->first_name)) . ' ' . ucfirst(trim($request->last_name)),
+                'first_name' => ucfirst(trim($request->first_name)),
+                'last_name' => ucfirst(trim($request->last_name)),
+                'email' => trim($request->email),
+                'phone' => trim($request->phone),
+                'address' => ucfirst(trim($request->address)),
+                'job_title' => ucfirst(trim($request->job_title)),
                 'role' => 'organization-admin',
                 'password' => Hash::make($generateRandomPassword),
             ]);
