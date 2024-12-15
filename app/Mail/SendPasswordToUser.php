@@ -17,11 +17,11 @@ class SendPasswordToUser extends Mailable
      * Create a new message instance.
      */
     protected $user;
-    protected $password;
-    public function __construct($generateRandomPassword,$user)
+    protected $generateToken;
+    public function __construct($generateToken,$user)
     {
         $this->user = $user;
-        $this->password = $generateRandomPassword;
+        $this->generateToken = $generateToken;
     }
 
     /**
@@ -43,7 +43,7 @@ class SendPasswordToUser extends Mailable
             view: 'emails.new-account-create-notification',
             with: [
                 'user' => $this->user,
-                'password' => $this->password
+                'token' => $this->generateToken
             ]
         );
     }

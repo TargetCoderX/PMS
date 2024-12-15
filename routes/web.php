@@ -20,11 +20,14 @@ Route::get('/', function () {
 Route::controller(RegisterController::class)->group(function () {
     Route::get('register', 'index')->name('register');
     Route::post('save-user-data', 'saveUserData')->name('save-user-data');
+    Route::get('verify-email/{token}', 'verifyEmail')->name('verify-email');
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

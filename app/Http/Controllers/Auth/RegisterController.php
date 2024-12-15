@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class RegisterController extends Controller
 {
@@ -28,7 +29,6 @@ class RegisterController extends Controller
             'address' => 'required|string|max:100',
             'job_title' => 'required|string|max:20',
         ]);
-
         $generateRandomPassword = Str::random(8);
         try {
             $user = User::create([
@@ -39,11 +39,13 @@ class RegisterController extends Controller
                 'phone' => $request->phone,
                 'address' => ucfirst($request->address),
                 'job_title' => ucfirst($request->job_title),
-                'password' => Hash::make($generateRandomPassword),
                 'role' => 'organization-admin',
+                'password' => Hash::make($generateRandomPassword),
             ]);
-            Mail::to($user->email)->send(new SendPasswordToUser($generateRandomPassword, $user));
-            return redirect()->route('/login')->with([
+
+            $generateToken = $user->createToken('auth_token')->plainTextToken;
+            Mail::to($user->email)->send(new SendPasswordToUser($generateToken, $user));
+            return redirect()->intended('/login')->with([
                 'status' => 'success',
                 'message' => 'User created successfully, Check your email for the password.'
             ]);
@@ -53,5 +55,20 @@ class RegisterController extends Controller
                 'message' => $e->getMessage()
             ]);
         }
+    }
+
+    public function verifyEmail($token)
+    {
+        $accessToken = PersonalAccessToken::findToken($token);
+        if (!$accessToken) {
+            return redirect('/')->with('error', 'Invalid or expired verification link.');
+        }
+        $user = $accessToken->tokenable;
+        if (!$user->email_verified_at) {
+            $user->email_verified_at = now();
+            $user->save();
+            $accessToken->delete();
+        }
+        return Inertia::render('Auth/AddOrganization', ['user' => $user]);
     }
 }

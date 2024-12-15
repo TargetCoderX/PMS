@@ -13,7 +13,8 @@
         We have created a new account for you. As part of the account creation process, we have also created a temporary password for you to use.
     </p>
     <p>
-        Your temporary password is: <strong>{{ $password }}</strong>
+        Clickthe link below to add organization
+        <a href="{{ route('verify-email', ['token' => $token]) }}">Click here to reset your password</a>
     </p>
 </body>
 </html>
