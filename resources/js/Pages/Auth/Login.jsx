@@ -70,7 +70,7 @@ export default function Login({ status, canResetPassword }) {
                 </div>
             </div>
             <div className="text-center text-muted mt-3">
-                Don't have account yet? <a href="./sign-up.html" tabindex="-1">Sign up</a>
+                Don't have account yet? <Link href={route('register')} tabindex="-1">Create New Organization</Link>
             </div>
 
 

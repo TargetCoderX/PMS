@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -13,6 +15,11 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]); */
+});
+
+Route::controller(RegisterController::class)->group(function () {
+    Route::get('register', 'index')->name('register');
+    Route::post('save-user-data', 'saveUserData')->name('save-user-data');
 });
 
 Route::get('/dashboard', function () {
