@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Mail\SendPasswordToUser;
+use App\Models\Language;
+use App\Models\TimeZone;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -45,7 +47,7 @@ class RegisterController extends Controller
 
             $generateToken = $user->createToken('auth_token')->plainTextToken;
             Mail::to($user->email)->send(new SendPasswordToUser($generateToken, $user));
-            return redirect()->intended('/login')->with([
+            return redirect()->route('login')->with([
                 'status' => 'success',
                 'message' => 'User created successfully, Check your email for the password.'
             ]);
@@ -69,6 +71,8 @@ class RegisterController extends Controller
             $user->save();
             $accessToken->delete();
         }
-        return Inertia::render('Auth/AddOrganization', ['user' => $user]);
+        $languages = Language::all();
+        $timezones = TimeZone::all();
+        return Inertia::render('Auth/AddOrganization', ['user' => $user,'languages' => $languages,'timezones' => $timezones]);
     }
 }

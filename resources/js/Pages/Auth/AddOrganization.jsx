@@ -1,15 +1,14 @@
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head } from '@inertiajs/react';
 import React from 'react';
-
-function AddOrganization({ user }) {
-    console.log(user);
+function AddOrganization({ user, languages, timezones }) {
     return (
         <GuestLayout showBigForm={true}>
             <Head title="Add Organization" />
             <div className="card card-md">
                 <div className="card-body">
-                    <h2 className="h2 text-center mb-4">Login to your account</h2>
+                    <h2 className="h2 text-center mb-4">Add Organization</h2>
+                    <p>Give us some information about your organization</p>
                     <form>
                         <div className="row g-3">
                             <div className="col-3">
@@ -54,18 +53,24 @@ function AddOrganization({ user }) {
                             </div>
                             <div className="col-3">
                                 <label className="form-label" htmlFor="logo">Logo</label>
-                                <input className="form-control" id="logo" name="logo" placeholder="Enter your logo" type="text" />
+                                <input className="form-control" id="logo" name="logo" placeholder="Enter your logo" type="file" accept="image/*" />
                             </div>
                             <div className="col-3">
                                 <label className="form-label" htmlFor="time_zone">Time zone</label>
                                 <select className="form-select" id="time_zone" name="time_zone" required>
-                                    <option value="UTC">UTC</option>
+                                    <option value="">Select Timezone</option>
+                                    {timezones.length && timezones.map((timezone, index) => (
+                                        <option key={index} value={timezone.time_zone}>{timezone.time_zone}</option>
+                                    ))}
                                 </select>
                             </div>
                             <div className="col-3">
                                 <label className="form-label" htmlFor="language_preference">Language preference</label>
                                 <select className="form-select" id="language_preference" name="language_preference" required>
-                                    <option value="en">English</option>
+                                    <option value="">Select Language</option>
+                                    {languages.length && languages.map((language, index) => (
+                                        <option key={index} value={language.code}>{language.name}</option>
+                                    ))}
                                 </select>
                             </div>
                         </div>
