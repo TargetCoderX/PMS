@@ -1,14 +1,13 @@
-import GuestLayout from '@/Layouts/GuestLayout';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import React from 'react';
 function AddOrganization({ user, languages, timezones }) {
     return (
-        <GuestLayout showBigForm={true}>
+        <AuthenticatedLayout header={`Organization`} subtext="Give us some information about your organization">
             <Head title="Add Organization" />
             <div className="card card-md">
                 <div className="card-body">
                     <h2 className="h2 text-center mb-4">Add Organization</h2>
-                    <p>Give us some information about your organization</p>
                     <form>
                         <div className="row g-3">
                             <div className="col-3">
@@ -82,7 +81,7 @@ function AddOrganization({ user, languages, timezones }) {
                     </form>
                 </div>
             </div>
-        </GuestLayout>
+        </AuthenticatedLayout>
     );
 }
 

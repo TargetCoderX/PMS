@@ -5,9 +5,9 @@ import SubHeader from './partials/SubHeader';
 import PageHeader from './partials/PageHeader';
 import Footer from './partials/Footer';
 
-export default function AuthenticatedLayout({ children }) {
+export default function AuthenticatedLayout({ children, header, subtext }) {
     const user = usePage().props.auth.user;
-        useState(false);
+    useState(false);
 
     return (
         <div className="page">
@@ -15,10 +15,12 @@ export default function AuthenticatedLayout({ children }) {
             <SubHeader />
             <div className="page-wrapper">
 
-                <PageHeader />
+                <PageHeader header={header} subtext={subtext} />
 
                 <div className="page-body">
-                  {children}
+                    <div className="container-xl">
+                        {children}
+                    </div>
                 </div>
                 <Footer />
             </div>

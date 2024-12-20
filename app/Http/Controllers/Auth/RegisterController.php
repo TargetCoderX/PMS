@@ -63,16 +63,44 @@ class RegisterController extends Controller
     {
         $accessToken = PersonalAccessToken::findToken($token);
         if (!$accessToken) {
-            return redirect('/')->with('error', 'Invalid or expired verification link.');
+            return redirect('/')->with([
+                'status' => 'error',
+                'message' => 'Invalid or expired verification link.'
+            ]);
         }
         $user = $accessToken->tokenable;
         if (!$user->email_verified_at) {
             $user->email_verified_at = now();
             $user->save();
-            $accessToken->delete();
         }
         $languages = Language::all();
         $timezones = TimeZone::all();
-        return Inertia::render('Auth/AddOrganization', ['user' => $user,'languages' => $languages,'timezones' => $timezones]);
+
+        return Inertia::render('Auth/ChangePassword', ['user' => $user, 'token' => $token])->with([
+            'status' => 'success',
+            'message' => 'Your email has been verified. Please reset your password.'
+        ]);
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'password' => ['required', 'confirmed', 'min:8', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/'],
+        ]);
+        $accessToken = PersonalAccessToken::findToken($request->token);
+        if (!$accessToken) {
+            return redirect('/')->with([
+                'status' => 'error',
+                'message' => 'Invalid or expired verification link.'
+            ]);
+        }
+        $user = $accessToken->tokenable;
+        $user->password = Hash::make($request->password);
+        $user->save();
+        $accessToken->delete();
+        return redirect()->route('login')->with([
+            'status' => 'success',
+            'message' => 'Password created successfully.'
+        ]);
     }
 }
