@@ -49,7 +49,7 @@ class RegisterController extends Controller
             Mail::to($user->email)->send(new SendPasswordToUser($generateToken, $user));
             return redirect()->route('login')->with([
                 'status' => 'success',
-                'message' => 'User created successfully, Check your email for the password.'
+                'message' => 'User created successfully, Check your email for the verification link.'
             ]);
         } catch (\Exception $e) {
             return redirect()->back()->with([

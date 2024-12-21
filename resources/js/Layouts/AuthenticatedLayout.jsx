@@ -4,6 +4,7 @@ import MainHeader from './partials/MainHeader';
 import SubHeader from './partials/SubHeader';
 import PageHeader from './partials/PageHeader';
 import Footer from './partials/Footer';
+import { ToastContainer } from 'react-toastify';
 
 export default function AuthenticatedLayout({ children, header, subtext }) {
     const user = usePage().props.auth.user;
@@ -11,6 +12,7 @@ export default function AuthenticatedLayout({ children, header, subtext }) {
 
     return (
         <div className="page">
+            <ToastContainer />
             <MainHeader />
             <SubHeader />
             <div className="page-wrapper">

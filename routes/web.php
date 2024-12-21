@@ -34,6 +34,7 @@ Route::middleware(['auth', OrganizationExistMiddleware::class])->group(function 
 
     Route::controller(OrganizationController::class)->as('organization.')->prefix('organization')->group(function () {
         Route::get('/', 'addOrganization')->name('add-organization');
+        Route::post('/store', 'storeOrganization')->name('store')->withoutMiddleware(OrganizationExistMiddleware::class);
     });
 });
 
