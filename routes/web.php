@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\PMS\DashboardController;
 use App\Http\Controllers\PMS\OrganizationController;
+use App\Http\Controllers\PMS\ProjectController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\OrganizationExistMiddleware;
 use Illuminate\Foundation\Application;
@@ -35,6 +36,10 @@ Route::middleware(['auth', OrganizationExistMiddleware::class])->group(function 
     Route::controller(OrganizationController::class)->as('organization.')->prefix('organization')->group(function () {
         Route::get('/', 'addOrganization')->name('add-organization');
         Route::post('/store', 'storeOrganization')->name('store')->withoutMiddleware(OrganizationExistMiddleware::class);
+    });
+
+    Route::controller(ProjectController::class)->as('project.')->prefix('project')->group(function () {
+        Route::get('/', 'index')->name('index');
     });
 });
 

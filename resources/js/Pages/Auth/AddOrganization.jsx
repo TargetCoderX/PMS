@@ -1,9 +1,17 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { addButton, addHeaderSubtext, addHeaderText } from '@/Redux/Reducers/HeaderReducer';
 import { Head, router, useForm } from '@inertiajs/react';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
 function AddOrganization({ user, languages, timezones }) {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(addHeaderText("Organization"));
+        dispatch(addHeaderSubtext("Give us some information about your organization"));
+        dispatch(dispatch(addButton({ buttonKey: '', buttonVisible: false })));
+    }, [dispatch])
     const { data, setData, post, processing, errors } = useForm({
         name: '',
         domain: '',
@@ -61,7 +69,7 @@ function AddOrganization({ user, languages, timezones }) {
     };
 
     return (
-        <AuthenticatedLayout header={`Organization`} subtext="Give us some information about your organization">
+        <AuthenticatedLayout>
             <Head title="Add Organization" />
             <div className="card card-md">
                 <div className="card-body">

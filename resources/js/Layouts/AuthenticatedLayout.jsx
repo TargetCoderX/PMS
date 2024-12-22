@@ -5,7 +5,6 @@ import SubHeader from './partials/SubHeader';
 import PageHeader from './partials/PageHeader';
 import Footer from './partials/Footer';
 import { ToastContainer } from 'react-toastify';
-
 export default function AuthenticatedLayout({ children, header, subtext }) {
     const user = usePage().props.auth.user;
     useState(false);
@@ -20,7 +19,7 @@ export default function AuthenticatedLayout({ children, header, subtext }) {
                 <PageHeader header={header} subtext={subtext} />
 
                 <div className="page-body">
-                    <div className="container-xl">
+                    <div className="container-fluid">
                         {children}
                     </div>
                 </div>
@@ -29,3 +28,4 @@ export default function AuthenticatedLayout({ children, header, subtext }) {
         </div>
     );
 }
+

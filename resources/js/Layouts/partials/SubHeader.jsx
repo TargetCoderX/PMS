@@ -1,24 +1,20 @@
+import { Link } from '@inertiajs/react';
 import React from 'react';
 
 function SubHeader() {
     const menuItems = [
         {
-            name: "Dahsboard",
-            link: "#",
+            name: "Dashboard",
+            link: route('dashboard.index'),
             active: true,
             icon: 'fa fa-house',
-            children: [
-                {
-                    name: "Overview",
-                    link: "#"
-                },
-            ]
+            children: []
         }, {
             name: "Projects",
-            link: "#",
+            link: route('project.index'),
             active: true,
             icon: 'fa fa-briefcase',
-            children: [
+            children: [/*
                 {
                     name: "All Projects",
                     link: "#",
@@ -37,7 +33,7 @@ function SubHeader() {
                     active: true,
                     children: []
                 }
-            ]
+             */]
         }, {
             name: "Tasks",
             link: "#",
@@ -222,22 +218,22 @@ function SubHeader() {
                         <ul className="navbar-nav">
                             {menuItems.map((menuItem, index) => (
                                 <li key={index} className={`nav-item ${menuItem.children.length > 0 ? 'dropdown' : ''}`}>
-                                    <a className={`nav-link ${menuItem.children.length > 0 ? 'dropdown-toggle' : ''}`} href={menuItem.link} {...(menuItem.children.length > 0 && { 'data-bs-toggle': 'dropdown', 'data-bs-auto-close': 'outside', role: 'button', 'aria-expanded': 'false' })}>
+                                    <Link className={`nav-link ${menuItem.children.length > 0 ? 'dropdown-toggle' : ''}`} href={menuItem.link} {...(menuItem.children.length > 0 && { 'data-bs-toggle': 'dropdown', 'data-bs-auto-close': 'outside', role: 'button', 'aria-expanded': 'false' })}>
                                         <span className="nav-link-icon d-md-none d-lg-inline-block">
                                             <i className={menuItem.icon}></i>
                                         </span>
                                         <span className="nav-link-title">
                                             {menuItem.name}
                                         </span>
-                                    </a>
+                                    </Link>
                                     {menuItem.children.length > 0 && (
                                         <div className="dropdown-menu">
                                             <div className="dropdown-menu-columns">
                                                 <div className="dropdown-menu-column">
                                                     {menuItem.children.map((subItem, subIndex) => (
-                                                        <a key={subIndex} className="dropdown-item" href={subItem.link}>
+                                                        <Link key={subIndex} className="dropdown-item" href={subItem.link}>
                                                             {subItem.name}
-                                                        </a>
+                                                        </Link>
                                                     ))}
                                                 </div>
                                             </div>
