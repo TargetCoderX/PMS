@@ -29,7 +29,7 @@ function Project() {
                             <a href="#tabs-active-1" className="nav-link active" data-bs-toggle="tab" aria-selected="true" role="tab" tabindex="-1">Active <span className="badge bg-primary ms-2">3</span></a>
                         </li>
                         <li className="nav-item" role="presentation">
-                            <a href="#tabs-inprogress-1" className="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">In Progress <span className="badge bg-warning ms-2">2</span></a>
+                            <a href="#tabs-onhold-1" className="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">On Hold <span className="badge bg-warning ms-2">2</span></a>
                         </li>
                         <li className="nav-item" role="presentation">
                             <a href="#tabs-completed-1" className="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Completed <span className="badge bg-success ms-2">5</span></a>
@@ -320,7 +320,7 @@ function Project() {
                                 </table>
                             </div>
                         </div>
-                        <div className="tab-pane" id="tabs-inprogress-1" role="tabpanel">
+                        <div className="tab-pane" id="tabs-onhold-1" role="tabpanel">
                             <div className="table-responsive" style={{ maxHeight: '49vh', overflowY: 'auto' }}>
                                 <table className="table card-table table-vcenter text-nowrap datatable">
                                     <thead>
@@ -1168,6 +1168,60 @@ function Project() {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                            <form>
+                                <div className="row">
+                                    <div className="col-md-12 mb-3 form-group">
+                                        <label htmlFor="">Project Name</label>
+                                        <input type="text" className="form-control" />
+                                    </div> <div className="col-md-3 mb-3 form-group">
+                                        <label htmlFor="">Status</label>
+                                        <select name="" id="" className="form-control">
+                                            <option value="active">Active</option>
+                                            <option value="completed">Completed</option>
+                                            <option value="on hold">On Hold</option>
+                                            <option value="archived">Archived</option>
+                                        </select>
+                                    </div><div className="col-md-3 mb-3 form-group">
+                                        <label htmlFor="">Priority</label>
+                                        <select name="" id="" className="form-control">
+                                            <option value="low">Low</option>
+                                            <option value="medium">Medium</option>
+                                            <option value="high">High</option>
+                                            <option value="critical">Critical</option>
+                                        </select>
+                                    </div><div className="col-md-3 mb-3 form-group">
+                                        <label>Budget</label>
+                                        <input type="number" name="budget" className="form-control" placeholder="Enter budget amount" />
+                                    </div><div className="col-md-3 mb-3 form-group">
+                                        <label>Start Date</label>
+                                        <input type="date" className="form-control" placeholder="" />
+                                    </div>
+                                    <div className="col-md-3 mb-3 form-group">
+                                        <label>End Date</label>
+                                        <input type="date" className="form-control" placeholder="" />
+                                    </div>
+                                    <div className="col-md-3 mb-3 form-group">
+                                        <label>Duration</label>
+                                        <input type="date" className="form-control" placeholder="" />
+                                    </div>
+                                    <div className="col-md-3 mb-3 form-group">
+                                        <label>Project Type</label>
+                                        <select name="" id="" className="form-control">
+                                            <option value="internal">Internal</option>
+                                            <option value="client">Client</option>
+                                            <option value="r&d">R&D</option>
+                                        </select>
+                                    </div>
+                                    <div className="col-md-3 mb-3 form-group">
+                                        <label>Project Visiblity</label>
+                                        <select name="" id="" className="form-control">
+                                            <option value="private">Private</option>
+                                            <option value="public">Public</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+
                         </div>
                         <div class="modal-footer">
                             <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
@@ -1179,8 +1233,8 @@ function Project() {
                         </div>
                     </div>
                 </div>
-            </div>
-        </AuthenticatedLayout>
+            </div >
+        </AuthenticatedLayout >
     );
 }
 
