@@ -13,12 +13,17 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description');
             $table->foreignId('organization_id')->constrained('organizations')->onDelete('cascade');
+            $table->string('name');
+            $table->enum('status', ['active', 'completed', 'on-hold', 'archived'])->default('active');
+            $table->enum('priority', ['low', 'medium', 'high', 'critical'])->default('medium');
+            $table->integer('budget')->default(0);
+            $table->foreignId('currency_id')->nullable()->constrained('currencies')->onDelete('cascade');
             $table->date('start_date');
             $table->date('end_date');
-            $table->enum('status', ['active', 'completed', 'cancelled', 'archived'])->default('active');
+            $table->integer('duration')->comment('in hours');
+            $table->enum('project_type', ['internal', 'client', 'R&D'])->default('internal');
+            $table->enum('visiblity', ['public', 'private'])->default('private');
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });

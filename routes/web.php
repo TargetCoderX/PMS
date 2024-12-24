@@ -40,6 +40,7 @@ Route::middleware(['auth', OrganizationExistMiddleware::class])->group(function 
 
     Route::controller(ProjectController::class)->as('project.')->prefix('project')->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::post('/store', 'store')->name('store');
     });
 });
 

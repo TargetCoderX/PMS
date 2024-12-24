@@ -1,10 +1,12 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { addButton, addHeaderSubtext, addHeaderText } from '@/Redux/Reducers/HeaderReducer';
-import { Head } from '@inertiajs/react';
-import React, { use, useEffect, useRef } from 'react';
+import { Head, useForm, usePage } from '@inertiajs/react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import DatePicker from "react-datepicker";
+import { toast } from 'react-toastify';
 
-function Project() {
+function Project({ currencies }) {
     const dispatch = useDispatch();
     const refs = useRef({
         modalTitleRef: null,
@@ -19,6 +21,32 @@ function Project() {
         refs.current.modalTitleRef.innerText = "Add Project";
         refs.current.modalButtonRef.innerText = "Add Project";
     }, []);
+
+
+    const { data, setData, post, processing, errors } = useForm({
+        name: '',
+        status: '',
+        priority: '',
+        budget: '',
+        currency: '',
+        start_date: new Date(),
+        end_date: new Date(),
+        duration: '',
+        project_type: '',
+        visibility: '',
+    });
+
+    const handleChange = (e) => {
+        setData({
+            ...data,
+            [e.target.name]: e.target.value,
+        });
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        post(route('project.store'), { data });
+    }
     return (
         <AuthenticatedLayout>
             <Head title="Projects" />
@@ -1168,53 +1196,67 @@ function Project() {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form>
+                            <form name='projectForm' id='projectForm' onSubmit={(e) => handleSubmit(e)}>
                                 <div className="row">
                                     <div className="col-md-12 mb-3 form-group">
                                         <label htmlFor="">Project Name</label>
-                                        <input type="text" className="form-control" />
-                                    </div> <div className="col-md-3 mb-3 form-group">
+                                        <input type="text" name='name' value={data.name} onChange={(e) => handleChange(e)} className="form-control" />
+                                    </div> <div className="col-md-4 mb-3 form-group">
                                         <label htmlFor="">Status</label>
-                                        <select name="" id="" className="form-control">
+                                        <select name="status" id="status" onChange={(e) => handleChange(e)} value={data.status} className="form-control">
                                             <option value="active">Active</option>
                                             <option value="completed">Completed</option>
                                             <option value="on hold">On Hold</option>
                                             <option value="archived">Archived</option>
                                         </select>
-                                    </div><div className="col-md-3 mb-3 form-group">
+                                    </div><div className="col-md-4 mb-3 form-group">
                                         <label htmlFor="">Priority</label>
-                                        <select name="" id="" className="form-control">
+                                        <select name="priority" onChange={(e) => handleChange(e)} value={data.priority} id="priority" className="form-control">
                                             <option value="low">Low</option>
                                             <option value="medium">Medium</option>
                                             <option value="high">High</option>
                                             <option value="critical">Critical</option>
                                         </select>
-                                    </div><div className="col-md-3 mb-3 form-group">
+                                    </div>
+                                    <div className="col-md-4 mb-3 form-group">
                                         <label>Budget</label>
-                                        <input type="number" name="budget" className="form-control" placeholder="Enter budget amount" />
-                                    </div><div className="col-md-3 mb-3 form-group">
+                                        <input id="budget" value={data.budget} onChange={(e) => handleChange(e)} type="number" name="budget" className="form-control" placeholder="Enter budget amount" />
+                                    </div><div className="col-md-4 mb-3 form-group">
+                                        <label>Currency</label>
+                                        <select onChange={(e) => handleChange(e)} value={data.currency} name="currency" id="currency" className="form-control">
+                                            {currencies.map((currency) => (
+                                                <option value={currency.code}>{currency.name}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="col-md-4 mb-3 form-group">
                                         <label>Start Date</label>
-                                        <input type="date" className="form-control" placeholder="" />
+                                        <DatePicker name="start_date" id="start_date" value={data.start_date} className="form-control" dateFormat={"dd-MM-yyyy"} selected={data.start_date} onChange={(date) => setData("start_date", date)} />
                                     </div>
-                                    <div className="col-md-3 mb-3 form-group">
+                                    <div className="col-md-4 mb-3 form-group">
                                         <label>End Date</label>
-                                        <input type="date" className="form-control" placeholder="" />
+                                        <DatePicker name="end_date" id="end_date" value={data.end_date} className="form-control" dateFormat={"dd-MM-yyyy"} selected={data.end_date} onChange={(date) => setData("end_date", date)} />
                                     </div>
-                                    <div className="col-md-3 mb-3 form-group">
+                                    <div className="col-md-4 mb-3 form-group">
                                         <label>Duration</label>
-                                        <input type="date" className="form-control" placeholder="" />
+                                        <div className="input-group">
+                                            <input name="duration" value={data.duration} onChange={(e) => handleChange(e)} type="number" className="form-control" placeholder="Hours" />
+                                            <div className="input-group-append">
+                                                <span className="input-group-text">Hours</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="col-md-3 mb-3 form-group">
+                                    <div className="col-md-4 mb-3 form-group">
                                         <label>Project Type</label>
-                                        <select name="" id="" className="form-control">
+                                        <select name="project_type" id="project_type" onChange={(e) => handleChange(e)} value={data.project_type} className="form-control">
                                             <option value="internal">Internal</option>
                                             <option value="client">Client</option>
                                             <option value="r&d">R&D</option>
                                         </select>
                                     </div>
-                                    <div className="col-md-3 mb-3 form-group">
+                                    <div className="col-md-4 mb-3 form-group">
                                         <label>Project Visiblity</label>
-                                        <select name="" id="" className="form-control">
+                                        <select name="visibility" id="visibility" onChange={(e) => handleChange(e)} value={data.visibility} className="form-control">
                                             <option value="private">Private</option>
                                             <option value="public">Public</option>
                                         </select>
@@ -1227,9 +1269,9 @@ function Project() {
                             <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
                                 Cancel
                             </a>
-                            <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal"><i className='fa fa-plus me-2'></i>
+                            <button type="submit" form="projectForm" class="btn btn-primary ms-auto" data-bs-dismiss="modal"><i className='fa fa-plus me-2'></i>
                                 <span ref={(el) => refs.current.modalButtonRef = el}></span>
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>

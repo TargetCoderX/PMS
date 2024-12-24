@@ -10,6 +10,7 @@ import '/public/dist/libs/apexcharts/dist/apexcharts.min.js';
 import '/public/dist/libs/jsvectormap/dist/js/jsvectormap.min.js';
 import '/public/dist/libs/jsvectormap/dist/maps/world.js';
 import '/public/dist/libs/jsvectormap/dist/maps/world-merc.js';
+import "react-datepicker/dist/react-datepicker.css";
 // Tabler Core
 import '/public/dist/js/tabler.min.js';
 import '/public/dist/js/demo.min.js';
