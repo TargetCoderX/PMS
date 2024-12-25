@@ -2,7 +2,7 @@ import componentMap from '@/Redux/ComponentMap';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-function PageHeader() {
+function PageHeader({ pageHeaderCallback }) {
     const headerText = useSelector((state) => state.headerReducer.headerText);
     const subHeaderText = useSelector((state) => state.headerReducer.headerSubtext);
     const { buttonKey, buttonVisible } = useSelector((state) => state.headerReducer);
@@ -27,7 +27,7 @@ function PageHeader() {
                                 </a>
                             </span> */}
                             {buttonVisible && ButtonToRender && (
-                                <ButtonToRender />
+                                <ButtonToRender pageHeaderCallback={pageHeaderCallback} />
                             )}
                         </div>
                     </div>
