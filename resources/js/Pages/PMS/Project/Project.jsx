@@ -27,12 +27,12 @@ function Project({ currencies }) {
         status: '',
         priority: '',
         budget: '',
-        currency: '',
+        currency_id: '',
         start_date: new Date(),
         end_date: new Date(),
         duration: '',
         project_type: '',
-        visibility: '',
+        visiblity: '',
     });
 
     const handleChange = (e) => {
@@ -45,7 +45,14 @@ function Project({ currencies }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('project.store'), { data });
+        post(route('project.store'), {
+            data,
+            onSuccess: () => {
+                reset();
+                clearErrors();
+                document.querySelector('.close-project-add-modal').click();
+            }
+        });
     }
 
     const createProjectButtonClick = () => {
@@ -1213,7 +1220,7 @@ function Project({ currencies }) {
                                     <div className="col-md-4 mb-3 form-group">
                                         <label htmlFor="">Status</label>
                                         <select name="status" id="status" onChange={(e) => handleChange(e)} value={data.status} className="form-control">
-                                            <option value="" disabled selected hidden>Select Status</option>
+                                            <option value="" disabled hidden >Select Status</option>
                                             <option value="active">Active</option>
                                             <option value="completed">Completed</option>
                                             <option value="on hold">On Hold</option>
@@ -1224,7 +1231,7 @@ function Project({ currencies }) {
                                     <div className="col-md-4 mb-3 form-group">
                                         <label htmlFor="">Priority</label>
                                         <select name="priority" onChange={(e) => handleChange(e)} value={data.priority} id="priority" className="form-control">
-                                            <option value="" disabled selected hidden>Select Priority</option>
+                                            <option value="" disabled hidden>Select Priority</option>
                                             <option value="low">Low</option>
                                             <option value="medium">Medium</option>
                                             <option value="high">High</option>
@@ -1239,22 +1246,31 @@ function Project({ currencies }) {
                                     </div>
                                     <div className="col-md-4 mb-3 form-group">
                                         <label>Currency</label>
-                                        <select onChange={(e) => handleChange(e)} value={data.currency} name="currency" id="currency" className="form-control">
-                                            <option value="" disabled selected hidden>Select Currency</option>
+                                        <select onChange={(e) => handleChange(e)} value={data.currency_id} name="currency_id" id="currency_id" className="form-control">
+                                            <option value="" disabled hidden>Select Currency</option>
                                             {currencies.map((currency) => (
-                                                <option key={currency.code} value={currency.code}>{currency.name}</option>
+                                                <option key={currency.code} value={currency.id}>{currency.name}</option>
                                             ))}
                                         </select>
-                                        {errors.currency && <span className="text-danger">{errors.currency}</span>}
+                                        {errors.currency_id && <span className="text-danger">{errors.currency_id}</span>}
                                     </div>
                                     <div className="col-md-4 mb-3 form-group">
                                         <label>Start Date</label>
-                                        <DatePicker name="start_date" id="start_date" value={data.start_date} className="form-control" dateFormat={"dd-MM-yyyy"} selected={data.start_date} onChange={(date) => setData("start_date", date)} />
+                                        <DatePicker
+                                            name="start_date"
+                                            id="start_date"
+                                            value={data.start_date}
+                                            className="form-control"
+                                            dateFormat={"dd-MM-yyyy"}
+                                            selected={data.start_date}
+                                            onChange={(date) => setData("start_date", date)}
+                                            minDate={new Date()}
+                                        />
                                         {errors.start_date && <span className="text-danger">{errors.start_date}</span>}
                                     </div>
                                     <div className="col-md-4 mb-3 form-group">
                                         <label>End Date</label>
-                                        <DatePicker name="end_date" id="end_date" value={data.end_date} className="form-control" dateFormat={"dd-MM-yyyy"} selected={data.end_date} onChange={(date) => setData("end_date", date)} />
+                                        <DatePicker name="end_date" id="end_date" value={data.end_date} className="form-control" dateFormat={"dd-MM-yyyy"} selected={data.end_date} onChange={(date) => setData("end_date", date)} minDate={new Date(data.start_date)} />
                                         {errors.end_date && <span className="text-danger">{errors.end_date}</span>}
                                     </div>
                                     <div className="col-md-4 mb-3 form-group">
@@ -1270,7 +1286,7 @@ function Project({ currencies }) {
                                     <div className="col-md-4 mb-3 form-group">
                                         <label>Project Type</label>
                                         <select name="project_type" id="project_type" onChange={(e) => handleChange(e)} value={data.project_type} className="form-control">
-                                            <option value="" disabled selected hidden>Select Project Type</option>
+                                            <option value="" disabled hidden>Select Project Type</option>
                                             <option value="internal">Internal</option>
                                             <option value="client">Client</option>
                                             <option value="r&d">R&D</option>
@@ -1279,19 +1295,19 @@ function Project({ currencies }) {
                                     </div>
                                     <div className="col-md-4 mb-3 form-group">
                                         <label>Project Visibility</label>
-                                        <select name="visibility" id="visibility" onChange={(e) => handleChange(e)} value={data.visibility} className="form-control">
-                                            <option value="" disabled selected hidden>Select Visibility</option>
+                                        <select name="visiblity" id="visiblity" onChange={(e) => handleChange(e)} value={data.visiblity} className="form-control">
+                                            <option value="" disabled hidden>Select Visibility</option>
                                             <option value="private">Private</option>
                                             <option value="public">Public</option>
                                         </select>
-                                        {errors.visibility && <span className="text-danger">{errors.visibility}</span>}
+                                        {errors.visiblity && <span className="text-danger">{errors.visiblity}</span>}
                                     </div>
                                 </div>
                             </form>
 
                         </div>
                         <div class="modal-footer">
-                            <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+                            <a href="#" class="btn btn-link link-secondary close-project-add-modal" data-bs-dismiss="modal">
                                 Cancel
                             </a>
                             <button type="submit" form="projectForm" class="btn btn-primary ms-auto"><i className='fa fa-plus me-2' disabled={processing} ></i>

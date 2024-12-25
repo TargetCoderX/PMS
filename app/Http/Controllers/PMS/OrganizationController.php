@@ -66,6 +66,7 @@ class OrganizationController extends Controller
             }
             $user = User::find(Auth::user()->id);
             $user->is_organization_added = Config::get('constants.organization_added');
+            $user->organization_id = $organizationResponse->id;
             $user->save();
             return response()->json(['message' => 'Organization created successfully'], 200);
         } catch (Exception $e) {
